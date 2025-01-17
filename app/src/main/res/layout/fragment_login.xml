@@ -28,11 +28,10 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="245dp"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="40dp"
-            android:layout_marginBottom="2dp"
             android:fontFamily="@font/poppins_bold"
             android:text="Welcome Back"
             android:textAlignment="textStart"
@@ -47,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.73" />
+            app:layout_constraintGuide_percent="0.77" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -89,6 +88,7 @@
         app:boxCornerRadiusTopStart="25dp"
         app:boxStrokeColor="#D6D6D6"
         app:boxStrokeWidth="1dp"
+        app:hintTextColor="@color/grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3">
@@ -132,6 +132,7 @@
         app:boxStrokeWidth="1dp"
         app:endIconMode="password_toggle"
         app:endIconTint="#929292"
+        app:hintTextColor="@color/grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PasswordLabel">
