@@ -1,60 +1,62 @@
 package com.example.technical_test_2.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.technical_test_2.R
+import com.example.technical_test_2.adapter.StudentAdapter
+import com.example.technical_test_2.model.StudentData
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [StudentListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class StudentListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var rvStudentList: RecyclerView
+    private val studentList = mutableListOf<StudentData>()
+    private lateinit var adapter: StudentAdapter
+    private val firestore: FirebaseFirestore by lazy { Firebase.firestore }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
         return inflater.inflate(R.layout.fragment_student_list, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment StudentListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            StudentListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        rvStudentList = view.findViewById(R.id.rvStudentList)
+
+        adapter = StudentAdapter(studentList)
+        rvStudentList.layoutManager = LinearLayoutManager(requireContext())
+        rvStudentList.adapter = adapter
+
+        fetchStudentData()
+    }
+    private fun fetchStudentData() {
+        firestore.collection("user2")
+            .get()
+            .addOnSuccessListener { result ->
+                studentList.clear()
+                for (document in result.documents) {
+                    val name = document.getString("name") ?: "Unknown"
+                    val address = document.getString("address") ?: "No Address"
+                    val imageUrl = document.getString("image") ?: ""
+
+                    studentList.add(StudentData(name, imageUrl, address))
                 }
+                adapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener { exception ->
+                Log.e("FirestoreError", "Error fetching students", exception)
             }
     }
 }
