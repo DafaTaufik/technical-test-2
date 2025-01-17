@@ -1,6 +1,5 @@
 package com.example.technical_test_2.adapter
 
-import android.content.ClipData.Item
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,9 +15,9 @@ class StudentAdapter (
 ) : RecyclerView.Adapter<StudentAdapter.StudentViewHolder>() {
 
     class StudentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val profileImage: ImageView = itemView.findViewById(R.id.profileImage)
-        val nameTextView: TextView = itemView.findViewById(R.id.profileName)
-        val addressTextView: TextView = itemView.findViewById(R.id.profileAddress)
+        val profileImage: ImageView = itemView.findViewById(R.id.profile_image)
+        val nameTextView: TextView = itemView.findViewById(R.id.profile_name)
+        val addressTextView: TextView = itemView.findViewById(R.id.profile_address)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudentViewHolder {
