@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.technical_test_2.R
@@ -14,6 +15,7 @@ import com.example.technical_test_2.model.StudentData
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import androidx.navigation.fragment.findNavController
 
 
 class StudentListFragment : Fragment() {
@@ -33,13 +35,18 @@ class StudentListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        rvStudentList = view.findViewById(R.id.rvStudentList)
+        rvStudentList = view.findViewById(R.id.recycle_view_student)
 
         adapter = StudentAdapter(studentList)
         rvStudentList.layoutManager = LinearLayoutManager(requireContext())
         rvStudentList.adapter = adapter
 
         fetchStudentData()
+        val btnBack = view.findViewById<ImageView>(R.id.btn_back)
+        btnBack.setOnClickListener {
+            val navController = findNavController()
+            navController.navigate(R.id.action_studentListFragment_to_homeFragment)
+        }
     }
     private fun fetchStudentData() {
         firestore.collection("user2")
